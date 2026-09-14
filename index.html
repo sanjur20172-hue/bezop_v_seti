@@ -402,6 +402,77 @@
     .sources-list a { color: var(--accent); text-decoration: none; word-break: break-all; }
     .sources-list a:hover { text-decoration: underline; }
 
+    /* Стили для секции рабочего листа */
+    .worksheet-section {
+        background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%);
+        border: 2px solid var(--accent);
+        border-radius: var(--radius);
+        padding: 40px;
+        margin: 40px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.9s ease-out;
+    }
+    .worksheet-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--success));
+        animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+    }
+    .worksheet-icon {
+        font-size: 3rem;
+        margin-bottom: 16px;
+        display: inline-block;
+        animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    .worksheet-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+        color: var(--accent);
+    }
+    .worksheet-section p {
+        color: var(--muted);
+        margin-bottom: 24px;
+        font-size: 1.05rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .btn-worksheet {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+        color: #001018;
+        font-weight: 800;
+        font-size: 1.1rem;
+        padding: 16px 32px;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .btn-worksheet:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(56, 189, 248, 0.5);
+    }
+    .btn-worksheet:active {
+        transform: translateY(-1px);
+    }
+
     footer { text-align: center; padding: 40px 20px 20px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 40px; }
 
     .toast {
@@ -432,6 +503,9 @@
         .email-body { padding: 16px; font-size: 0.9rem; }
         .evidence { padding: 2px 4px; }
         .tfa-grid { grid-template-columns: 1fr; }
+        .worksheet-section { padding: 30px 20px; }
+        .worksheet-section h3 { font-size: 1.5rem; }
+        .btn-worksheet { width: 100%; justify-content: center; }
     }
     @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
@@ -440,7 +514,7 @@
 
     @media print {
         body { background: #fff; color: #000; }
-        header, footer, .hero, .btn, .toast, .burger, .quiz-actions { display: none !important; }
+        header, footer, .hero, .btn, .toast, .burger, .quiz-actions, .worksheet-section { display: none !important; }
         
         body.printing-checklist section { display: none !important; }
         body.printing-checklist #checklist { display: block !important; padding: 0; }
@@ -694,6 +768,18 @@
         </div>
     </section>
 
+    <!-- Секция рабочего листа (перемещена в конец основного контента) -->
+    <section id="worksheet" class="worksheet-section">
+        <div class="worksheet-icon">📝</div>
+        <h3>Рабочий лист по кибербезопасности</h3>
+        <p>Закрепи полученные знания! Перейди по ссылке ниже, чтобы получить доступ к рабочему листу с дополнительными заданиями, проверочными вопросами и практическими кейсами для самостоятельной работы.</p>
+        <a href="https://sanjur20172-hue.github.io/rab_list2/" target="_blank" rel="noopener" class="btn-worksheet">
+            <span>📥</span>
+            <span>Перейти к рабочему листу</span>
+            <span>→</span>
+        </a>
+    </section>
+
 </main>
 
 <footer>
@@ -799,7 +885,6 @@
             'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
         ];
         for (const a of alphabets) {
-            // Изменено с 3 на 4 символа, чтобы не ловить обычные слова вроде "стул" или "студент"
             for (let i = 0; i <= s.length - 4; i++) {
                 const x = a.indexOf(s[i]);
                 const y = a.indexOf(s[i+1]);
@@ -1001,7 +1086,7 @@
         const text = $('cipherInput').value;
         if (!text.trim()) { 
             $('cipherResult').textContent = '---'; 
-            $('taskStatus').classList.remove('success'); // Сброс при очистке поля
+            $('taskStatus').classList.remove('success');
             $('taskStatus').textContent = 'Подсказка: этот сдвиг в шифровании называют ROT13 😉';
             return; 
         }
@@ -1043,7 +1128,6 @@
         quizState = { index: 0, score: 0, answered: false };
     }
     let quizIndex = Math.max(0, Math.min(quizState.index, quizData.length - 1));
-    // Клампинг quizScore для защиты от некорректных данных в storage
     let quizScore = Math.max(0, Math.min(quizState.score || 0, quizData.length));
     let quizAnswered = quizState.answered;
     const LETTERS = ['A', 'B', 'C', 'D'];
@@ -1099,7 +1183,7 @@
         if (quizIndex < quizData.length - 1) { 
             quizIndex++; 
             quizAnswered = false;
-            saveQuizState({ chosen: null }); // Очищаем выбор для нового вопроса
+            saveQuizState({ chosen: null });
             renderQuestion(); 
         } else { 
             finishQuiz(); 
@@ -1131,7 +1215,6 @@
         });
         els.next.onclick = onQuizNext;
 
-        // Изменено на != null для корректной работы после сброса chosen
         if (quizAnswered && quizState.chosen != null) {
             const buttons = els.options.querySelectorAll('.quiz-option');
             buttons.forEach((b, i) => {
