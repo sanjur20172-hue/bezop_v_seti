@@ -413,31 +413,6 @@
     }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-    .certificate-overlay {
-        position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-        z-index: 3000; display: flex; align-items: center; justify-content: center;
-        padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-    }
-    .certificate-overlay.show { opacity: 1; pointer-events: auto; }
-    .certificate {
-        background: #ffffff; color: #0f1526; width: 100%; max-width: 550px;
-        border-radius: 16px; padding: 40px; text-align: center;
-        border: 4px double var(--accent); box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    }
-    .certificate h2 { color: var(--accent); font-size: 1.8rem; margin-bottom: 10px; }
-    
-    .cert-input {
-        width: 100%; max-width: 400px; font-size: 1.5rem; font-weight: 800;
-        color: #000000; caret-color: #000000; text-align: center;
-        background: rgba(255, 255, 255, 0.95); border: none; border-bottom: 3px solid var(--accent);
-        padding: 8px 10px 5px; margin: 15px auto; display: block; font-family: inherit;
-        transition: border-color 0.2s, background 0.2s;
-    }
-    .cert-input:focus { outline: none; border-bottom-color: var(--accent-2); background: #ffffff; border-radius: 4px 4px 0 0; }
-    .cert-input::placeholder { color: #64748b; font-weight: 600; font-size: 1.2rem; opacity: 1; }
-
-    .certificate .cert-actions { margin-top: 24px; display: flex; gap: 12px; justify-content: center; }
-
     @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 30px; } }
     @media (max-width: 768px) {
         .burger { display: block; }
@@ -457,7 +432,6 @@
         .email-body { padding: 16px; font-size: 0.9rem; }
         .evidence { padding: 2px 4px; }
         .tfa-grid { grid-template-columns: 1fr; }
-        .cert-input { font-size: 1.2rem; }
     }
     @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
@@ -479,21 +453,6 @@
         body.printing-checklist .rule .rule-text b { color: #000; }
         body.printing-checklist .rule .rule-text span { color: #444; }
         body.printing-checklist .rule.checked { border-color: #000; }
-
-        body.printing-cert section { display: none !important; }
-        body.printing-cert .certificate-overlay {
-            display: flex !important; position: static; background: none; backdrop-filter: none;
-            opacity: 1; pointer-events: auto; padding: 0;
-        }
-        body.printing-cert .certificate {
-            border: 4px double #000; box-shadow: none; max-width: 100%; color: #000;
-        }
-        body.printing-cert .cert-actions { display: none !important; }
-        body.printing-cert .cert-input {
-            border-bottom: 3px solid #000 !important; color: #000 !important;
-            background: transparent !important; -webkit-text-fill-color: #000 !important;
-        }
-        body.printing-cert .cert-input::placeholder { color: transparent !important; }
     }
 </style>
 </head>
@@ -540,7 +499,7 @@
             <aside class="case-card" aria-label="Сводка по делу">
                 <span class="stamp">● Активное дело</span>
                 <h3>Сводка происшествия</h3>
-                <p>Пострадавший: ученик 9 класса.<br>Потерян доступ: почта, игровой аккаунт, соцсеть.<br>Время до взлома: ~15 минут.</p>
+                <p>Пострадавший: ученик 8 класса.<br>Потерян доступ: почта, игровой аккаунт, соцсеть.<br>Время до взлома: ~15 минут.</p>
                 <div class="meta">
                     <span>📁 Улик в деле: <b>4 испытания</b></span>
                     <span>🎯 Цель: <b>понять схему атаки</b></span>
@@ -611,19 +570,19 @@
                     <div class="tfa-icon">📱</div>
                     <div class="tfa-title">SMS-код</div>
                     <span class="tfa-badge badge-med">Лучше, чем ничего</span>
-                    <div class="tfa-desc"><strong>Риск:</strong> SIM-карту можно клонировать или оформить перевыпуск через социальную инженерию. Перехват SMS через SS7-атаки также возможен. <em>Включать стоит, но приложение надёжнее.</em></div>
+                    <div class="tfa-desc"><strong>Риск:</strong> SIM-карту можно клонировать или оформить перевыпуск через социальную инженерию. Перехват SMS через уязвимости в сетях мобильной связи (SS7) также возможен. <em>Включать стоит, но приложение надёжнее.</em></div>
                 </div>
                 <div class="tfa-card" tabindex="0" role="button" aria-pressed="false">
                     <div class="tfa-icon">🔐</div>
                     <div class="tfa-title">Приложение-аутентификатор</div>
                     <span class="tfa-badge badge-high">Высокая защита</span>
-                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Коды генерируются локально на твоём устройстве (Google Authenticator, Яндекс.Ключ). Их невозможно перехватить через сеть.</div>
+                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Коды генерируются локально на твоём устройстве (Google Authenticator, Яндекс.Ключ). Их невозможно перехватить через сеть или оператора.</div>
                 </div>
                 <div class="tfa-card" tabindex="0" role="button" aria-pressed="false">
                     <div class="tfa-icon">🔑</div>
                     <div class="tfa-title">Физический ключ (YubiKey)</div>
                     <span class="tfa-badge badge-high">Максимальная защита</span>
-                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Аппаратное устройство, которое вставляется в USB. Поддерживает протокол FIDO2. Фишинг невозможен в принципе.</div>
+                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Аппаратное устройство, которое вставляется в USB. Поддерживает современный стандарт защиты FIDO2. Фишинг невозможен в принципе.</div>
                 </div>
             </div>
         </div>
@@ -743,21 +702,6 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<div class="certificate-overlay" id="certOverlay">
-    <div class="certificate">
-        <h2>🏆 СЕРТИФИКАТ 🏆</h2>
-        <p>Настоящим подтверждается, что</p>
-        <input type="text" id="certNameInput" class="cert-input" placeholder="Введите ваше имя и фамилию" maxlength="40" autocomplete="off" aria-label="Введите ваше имя для сертификата">
-        <p>успешно завершил курс «Основы кибербезопасности»</p>
-        <p style="margin-top: 10px; font-size: 1.1rem; color: var(--success); font-weight: 700;">Результат: <span id="certScore">100%</span></p>
-        <p style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">Дата: <span id="certDate"></span></p>
-        <div class="cert-actions">
-            <button class="btn" id="printCertBtn">🖨️ Распечатать</button>
-            <button class="btn btn-ghost" id="closeCert">Закрыть</button>
-        </div>
-    </div>
-</div>
-
 <script>
 (function () {
     'use strict';
@@ -837,7 +781,6 @@
         return pool || 1;
     }
     
-    // Проверяем, является ли ВЕСЬ пароль подстрокой клавиатурного ряда
     function isKeyboardWalk(pwd) {
         if (pwd.length < 4) return false;
         const rows = [
@@ -848,7 +791,6 @@
         return rows.some(r => r.includes(p));
     }
 
-    // Проверяем только алфавитные последовательности по 3 символа
     function isAlphabetRun(pwd) {
         const s = pwd.toLowerCase();
         const alphabets = [
@@ -857,12 +799,14 @@
             'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
         ];
         for (const a of alphabets) {
-            for (let i = 0; i <= s.length - 3; i++) {
+            // Изменено с 3 на 4 символа, чтобы не ловить обычные слова вроде "стул" или "студент"
+            for (let i = 0; i <= s.length - 4; i++) {
                 const x = a.indexOf(s[i]);
                 const y = a.indexOf(s[i+1]);
                 const z = a.indexOf(s[i+2]);
-                if (x !== -1 && y === x + 1 && z === x + 2) return true;
-                if (x !== -1 && y === x - 1 && z === x - 2) return true;
+                const w = a.indexOf(s[i+3]);
+                if (x !== -1 && y === x + 1 && z === x + 2 && w === x + 3) return true;
+                if (x !== -1 && y === x - 1 && z === x - 2 && w === x - 3) return true;
             }
         }
         return false;
@@ -1055,7 +999,12 @@
         const shift = parseInt($('shift').value, 10) || 1;
         $('shiftValue').textContent = shift;
         const text = $('cipherInput').value;
-        if (!text.trim()) { $('cipherResult').textContent = '---'; return; }
+        if (!text.trim()) { 
+            $('cipherResult').textContent = '---'; 
+            $('taskStatus').classList.remove('success'); // Сброс при очистке поля
+            $('taskStatus').textContent = 'Подсказка: этот сдвиг в шифровании называют ROT13 😉';
+            return; 
+        }
         const out = caesar(text, shift, cipherMode);
         $('cipherResult').textContent = out;
         
@@ -1082,7 +1031,7 @@
     const quizData = [
         { q: 'Сообщение от друга: «Проголосуй по ссылке bit.ly/3x8Z». Твои действия?', options: ['Перейду и проголосую.', 'Переспрошу друга голосом или по телефону.', 'Отправлю в школьный чат.'], correct: 1, explain: 'Аккаунт друга могли взломать. Проверяй по другому каналу связи.' },
         { q: 'Письмо от «банка»: «Карта заблокирована, подтвердите данные по ссылке». Что это?', options: ['Обычное уведомление.', 'Реклама.', 'Фишинг — попытка украсть данные.'], correct: 2, explain: 'Банки никогда не просят подтверждать данные по ссылке из письма.' },
-        { q: 'Один и тот же пароль на почте, в соцсетях и в игре. Чем это опасно?', options: ['Ничем.', 'Если утечёт один сервис — злоумышленник войдёт во все.', 'Опасно только если пароль короткий.'], correct: 1, explain: 'Это credential stuffing. Один пароль = ключ ко всем дверям.' },
+        { q: 'Один и тот же пароль на почте, в соцсетях и в игре. Чем это опасно?', options: ['Ничем.', 'Если утечёт один сервис — злоумышленник войдёт во все.', 'Опасно только если пароль короткий.'], correct: 1, explain: 'Это атака повторного использования паролей (credential stuffing). Один пароль = ключ ко всем дверям.' },
         { q: 'В кафе нужно зайти в почту. Что безопаснее?', options: ['Открытый Wi-Fi кафе.', 'Раздать интернет с телефона (HTTPS).', 'Пароль от Wi-Fi у официанта.'], correct: 1, explain: 'Открытые сети легко прослушиваются. Мобильный интернет + HTTPS — безопасный вариант.' },
         { q: 'В мессенджер: «Мама, я попал в беду, срочно скинь 5000 ₽». Что делать?', options: ['Срочно перевести.', 'Позвонить по известному номеру и уточнить.', 'Написать «это ты?»'], correct: 1, explain: 'Звони по номеру, который записан у тебя в телефоне, а не по присланному.' },
         { q: 'Зачем нужна 2FA через приложение, а не SMS?', options: ['Вводить два пароля.', 'SMS можно перехватить, а приложение генерирует код локально.', 'Это просто усложнение.'], correct: 1, explain: '2FA через приложение блокирует ~99% атак, код невозможно перехватить через оператора.' },
@@ -1094,11 +1043,11 @@
         quizState = { index: 0, score: 0, answered: false };
     }
     let quizIndex = Math.max(0, Math.min(quizState.index, quizData.length - 1));
-    let quizScore = quizState.score;
+    // Клампинг quizScore для защиты от некорректных данных в storage
+    let quizScore = Math.max(0, Math.min(quizState.score || 0, quizData.length));
     let quizAnswered = quizState.answered;
     const LETTERS = ['A', 'B', 'C', 'D'];
 
-    // Исправлено: saveQuizState теперь обновляет quizState в памяти перед записью
     function saveQuizState(overrides = {}) {
         quizState = {
             ...quizState,
@@ -1143,7 +1092,6 @@
         els.next.hidden = false;
         els.next.focus();
         
-        // ОДИН вызов в конце с chosen
         saveQuizState({ chosen: choiceIndex });
     }
 
@@ -1151,7 +1099,7 @@
         if (quizIndex < quizData.length - 1) { 
             quizIndex++; 
             quizAnswered = false;
-            saveQuizState();
+            saveQuizState({ chosen: null }); // Очищаем выбор для нового вопроса
             renderQuestion(); 
         } else { 
             finishQuiz(); 
@@ -1183,7 +1131,8 @@
         });
         els.next.onclick = onQuizNext;
 
-        if (quizAnswered && typeof quizState.chosen === 'number') {
+        // Изменено на != null для корректной работы после сброса chosen
+        if (quizAnswered && quizState.chosen != null) {
             const buttons = els.options.querySelectorAll('.quiz-option');
             buttons.forEach((b, i) => {
                 b.disabled = true;
@@ -1215,7 +1164,6 @@
                 <div class="verdict" style="color: ${color}">${verdict}</div>
                 <div class="verdict-sub">${sub}</div>
                 <div class="quiz-actions" style="justify-content: center;">
-                    ${percent >= 85 ? '<button class="btn" id="getCertBtn" type="button">🏆 Получить сертификат</button>' : ''}
                     <button class="btn btn-ghost" id="quizRestart" type="button">Пройти заново</button>
                 </div>
             </div>`;
@@ -1230,46 +1178,18 @@
                 <div class="quiz-actions"><button class="btn" id="quizNext" type="button" hidden>Далее →</button></div>`;
             renderQuestion();
         });
-
-        const certBtn = $('getCertBtn');
-        if (certBtn) {
-            certBtn.addEventListener('click', () => {
-                $('certScore').textContent = percent + '%';
-                $('certDate').textContent = new Date().toLocaleDateString('ru-RU');
-                const savedName = storage.get('certUserName');
-                $('certNameInput').value = savedName || '';
-                $('certOverlay').classList.add('show');
-                setTimeout(() => $('certNameInput').focus(), 300);
-            });
-        }
     }
-    
-    $('certNameInput').addEventListener('input', (e) => storage.set('certUserName', e.target.value.trim()));
 
-    $('closeCert').addEventListener('click', () => $('certOverlay').classList.remove('show'));
-    
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && $('certOverlay').classList.contains('show')) {
-            $('certOverlay').classList.remove('show');
-        }
-    });
-    $('certOverlay').addEventListener('click', e => {
-        if (e.target === $('certOverlay')) $('certOverlay').classList.remove('show');
-    });
-
-    function handlePrint(className) {
+    $('printChecklist').addEventListener('click', () => {
         const cleanup = () => {
-            document.body.classList.remove(className);
+            document.body.classList.remove('printing-checklist');
             window.removeEventListener('afterprint', cleanup);
         };
         window.addEventListener('afterprint', cleanup);
         setTimeout(cleanup, 15000);
-        document.body.classList.add(className);
+        document.body.classList.add('printing-checklist');
         window.print();
-    }
-
-    $('printCertBtn').addEventListener('click', () => handlePrint('printing-cert'));
-    $('printChecklist').addEventListener('click', () => handlePrint('printing-checklist'));
+    });
 
     renderQuestion();
 
