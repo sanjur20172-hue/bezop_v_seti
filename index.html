@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Кибер-детектив — интерактивный школьный проект по безопасности в интернете.">
 <meta name="theme-color" content="#0a0e1a">
 <meta property="og:title" content="Кибер-детектив · Дело №2026">
 <meta property="og:description" content="Интерактивный тренажёр по кибербезопасности: проверь свой пароль, найди фишинг и пройди квест.">
 <meta property="og:type" content="website">
 <title>Кибер-детектив · Дело №2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230a0e1a%22 stroke=%22%2338bdf8%22 stroke-width=%224%22/><path d=%22M50 25 L50 55 M35 40 L50 55 L65 40%22 stroke=%22%2338bdf8%22 stroke-width=%226%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/><circle cx=%2250%22 cy=%2270%22 r=%224%22 fill=%22%2338bdf8%22/></svg>">
 <style>
     :root {
         --bg: #0a0e1a;
@@ -115,7 +116,12 @@
     .subtitle { color: var(--muted); margin-bottom: 2rem; max-width: 780px; }
 
     .hero { padding: 90px 0 70px; position: relative; }
-    .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
+    .hero-grid { 
+        display: grid; 
+        grid-template-columns: 1.2fr 0.8fr; 
+        gap: 40px; 
+        align-items: start;
+    }
     
     .hero h1 {
         font-size: clamp(1.9rem, 5.5vw, 3.1rem);
@@ -129,6 +135,81 @@
         -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero p.lead { font-size: clamp(1rem, 2.3vw, 1.15rem); color: var(--muted); max-width: 620px; margin-bottom: 2rem; animation: fadeInUp 0.9s ease-out 0.2s backwards; }
+    
+    .investigation-parts {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+        margin-bottom: 24px;
+        animation: fadeInUp 0.9s ease-out 0.3s backwards;
+    }
+    .investigation-parts h4 {
+        font-size: 0.95rem;
+        color: var(--accent);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+    }
+    .parts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .part-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 14px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        text-decoration: none;
+        color: var(--text);
+        transition: all 0.2s;
+    }
+    .part-item:hover {
+        border-color: var(--accent);
+        background: var(--card-2);
+        transform: translateX(4px);
+    }
+    .part-number {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        color: var(--accent);
+        font-weight: 800;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Consolas', monospace;
+    }
+    .part-content {
+        flex: 1;
+        min-width: 0;
+    }
+    .part-title {
+        font-size: 0.92rem;
+        font-weight: 700;
+        margin-bottom: 2px;
+        color: var(--text);
+    }
+    .part-desc {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.4;
+    }
+    .part-icon {
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
     .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp 0.9s ease-out 0.4s backwards; }
 
     .btn {
@@ -146,6 +227,8 @@
     .case-card {
         background: var(--folder-bg); border: 1px solid var(--border); border-radius: 4px 14px 14px 14px;
         padding: 24px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        position: sticky;
+        top: calc(var(--header-h) + 20px);
     }
     .case-card::before {
         content: ''; position: absolute; top: -8px; left: 20px; width: 40px; height: 16px;
@@ -270,10 +353,6 @@
     .feedback-log .entry .ok { color: var(--success); font-weight: 700; }
     .feedback-log .entry .bad { color: var(--danger); font-weight: 700; }
     .feedback-log .entry .warn { color: var(--warning); font-weight: 700; }
-    .feedback-log .reality-check {
-        display: block; margin-top: 6px; padding: 8px 10px; background: rgba(0,0,0,0.2);
-        border-radius: 6px; font-size: 0.82rem; color: #cbd5e1; border-left: 2px solid var(--accent);
-    }
 
     .tfa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
     .tfa-card {
@@ -290,7 +369,6 @@
         display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 6px;
         border-radius: 4px; margin-top: 6px;
     }
-    .badge-low { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
     .badge-med { background: rgba(217, 119, 6, 0.25); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
     .badge-high { background: rgba(34, 197, 94, 0.2); color: #86efac; }
 
@@ -355,38 +433,6 @@
     .quiz-final .verdict { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
     .quiz-final .verdict-sub { color: var(--muted); font-size: 0.92rem; margin-bottom: 20px; }
 
-    .security-level {
-        background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-        padding: 20px; margin-bottom: 24px; text-align: center;
-    }
-    .security-level .level-bar { height: 12px; background: var(--bg); border-radius: 6px; overflow: hidden; margin: 12px 0; }
-    .security-level .level-fill { height: 100%; width: 0%; background: var(--danger); transition: width 0.5s, background 0.5s; }
-    .security-level .level-text { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
-    .security-level .level-sub { font-size: 0.85rem; color: var(--muted); }
-
-    .checklist { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-    .rule {
-        display: flex; gap: 14px; padding: 16px 18px; background: var(--card);
-        border: 1px solid var(--border); border-radius: 12px; cursor: pointer;
-        transition: all 0.2s; align-items: flex-start;
-    }
-    .rule:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .rule.checked { border-color: var(--success); background: rgba(34, 197, 94, 0.05); }
-    .rule input[type="checkbox"] {
-        appearance: none; width: 22px; height: 22px; border: 2px solid var(--muted);
-        border-radius: 6px; flex-shrink: 0; margin-top: 2px; cursor: pointer;
-        position: relative; transition: all 0.2s;
-    }
-    .rule input[type="checkbox"]:checked { background: var(--success); border-color: var(--success); }
-    .rule input[type="checkbox"]:checked::after {
-        content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        color: #000; font-weight: 900; font-size: 14px;
-    }
-    .rule .rule-text { font-size: 0.92rem; line-height: 1.5; }
-    .rule .rule-text b { color: var(--text); display: block; margin-bottom: 2px; }
-    .rule .rule-text span { color: var(--muted); font-size: 0.85rem; }
-    .rule.checked .rule-text b { color: var(--success); }
-
     .conclusion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 24px; }
     .panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
     .panel h3 { margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
@@ -402,7 +448,318 @@
     .sources-list a { color: var(--accent); text-decoration: none; word-break: break-all; }
     .sources-list a:hover { text-decoration: underline; }
 
-    /* Стили для секции рабочего листа */
+    .dossier-folder {
+        background: var(--folder-bg);
+        border: 1px solid var(--border);
+        border-radius: 4px var(--radius) var(--radius) var(--radius);
+        padding: 32px;
+        position: relative;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        margin-bottom: 30px;
+    }
+    .dossier-folder::before {
+        content: ''; position: absolute; top: -10px; left: 30px; width: 60px; height: 20px;
+        background: var(--card-2); border-radius: 6px 6px 0 0; border: 1px solid var(--border); border-bottom: none;
+    }
+    .dossier-stamp {
+        position: absolute; top: 24px; right: 24px;
+        font-size: 0.75rem; font-weight: 900; color: var(--success);
+        border: 3px solid var(--success); padding: 6px 12px;
+        transform: rotate(-8deg); opacity: 0.8; letter-spacing: 2px;
+    }
+    .dossier-title {
+        font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .dossier-subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+
+    .hints-block {
+        background: var(--bg); border: 1px dashed var(--border); border-radius: 10px;
+        padding: 18px; margin-bottom: 24px;
+    }
+    .hints-block h4 {
+        font-size: 0.95rem; margin-bottom: 12px; color: var(--accent);
+        display: flex; align-items: center; gap: 8px;
+    }
+    .hint-category { border-bottom: 1px solid var(--border); }
+    .hint-category:last-child { border-bottom: none; }
+    .hint-category-btn {
+        width: 100%; background: transparent; border: none; color: var(--text);
+        padding: 12px 4px; font-size: 0.92rem; font-weight: 600;
+        cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        font-family: inherit; text-align: left; transition: color 0.2s;
+    }
+    .hint-category-btn:hover { color: var(--accent); }
+    .hint-category-btn .arrow { transition: transform 0.25s; color: var(--muted); }
+    .hint-category[aria-expanded="true"] .arrow { transform: rotate(90deg); }
+    .hint-items { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .hint-category[aria-expanded="true"] .hint-items { max-height: 400px; }
+    .hint-item {
+        background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+        padding: 10px 14px; margin: 6px 0; font-size: 0.88rem;
+        display: flex; justify-content: space-between; align-items: center; gap: 10px;
+        cursor: pointer; transition: all 0.2s; color: var(--muted);
+        width: 100%; text-align: left; font-family: inherit;
+    }
+    .hint-item:hover { border-color: var(--accent); color: var(--text); transform: translateX(3px); }
+    .hint-item .plus { color: var(--accent); font-weight: 800; font-size: 1.1rem; flex-shrink: 0; }
+
+    .my-items-block {
+        background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+        padding: 18px; margin-bottom: 20px;
+    }
+    .my-items-block h4 { font-size: 0.95rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .add-item-form { display: flex; gap: 10px; margin-bottom: 16px; }
+    .add-item-form input {
+        flex: 1; padding: 11px 14px; border-radius: 8px;
+        border: 1px solid #38455f; background: var(--card);
+        color: var(--text); font-size: 0.95rem; font-family: inherit;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .add-item-form input:focus {
+        border-color: var(--accent); outline: none;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+    .btn-add {
+        background: var(--accent); color: #001018; font-weight: 800;
+        border: none; padding: 0 20px; border-radius: 8px; cursor: pointer;
+        font-family: inherit; font-size: 1.1rem; transition: background 0.2s;
+    }
+    .btn-add:hover { background: var(--accent-2); }
+
+    .items-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .dossier-item {
+        display: flex; align-items: center; gap: 12px;
+        padding: 12px 14px; background: var(--card);
+        border: 1px solid var(--border); border-radius: 10px;
+        transition: all 0.2s;
+    }
+    .dossier-item:hover { border-color: var(--accent); }
+    .dossier-item.checked { border-color: var(--success); background: rgba(34, 197, 94, 0.05); }
+    .dossier-item.checked .item-text {
+        color: var(--success); text-decoration: line-through;
+        text-decoration-color: rgba(34, 197, 94, 0.5);
+    }
+    .item-checkbox {
+        appearance: none; width: 22px; height: 22px;
+        border: 2px solid var(--muted); border-radius: 6px;
+        cursor: pointer; position: relative; flex-shrink: 0;
+        transition: all 0.2s;
+    }
+    .item-checkbox:checked { background: var(--success); border-color: var(--success); }
+    .item-checkbox:checked::after {
+        content: '✓'; position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        color: #000; font-weight: 900; font-size: 14px;
+    }
+    .item-text { 
+        flex: 1; font-size: 0.95rem; line-height: 1.4; 
+        transition: all 0.2s; cursor: pointer;
+    }
+    .item-remove {
+        background: transparent; border: none; color: var(--muted);
+        cursor: pointer; font-size: 1.2rem; padding: 4px 8px;
+        border-radius: 6px; transition: all 0.2s; line-height: 1; flex-shrink: 0;
+    }
+    .item-remove:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+
+    .empty-state {
+        text-align: center; padding: 30px 20px;
+        color: var(--muted); font-size: 0.95rem;
+    }
+    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.6; }
+
+    .dossier-actions {
+        display: flex; gap: 10px; flex-wrap: wrap;
+        padding-top: 16px; border-top: 1px dashed var(--border);
+    }
+
+    .memo-section { margin-top: 40px; }
+    .memo-section h3 {
+        font-size: 1.3rem; margin-bottom: 8px;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .memo-section .subtitle { margin-bottom: 20px; }
+
+    .memo-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .memo-card {
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 22px;
+        position: relative; overflow: hidden;
+        transition: border-color 0.2s;
+    }
+    .memo-card.completed { border-color: var(--success); }
+    .memo-card::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        background: linear-gradient(90deg, var(--danger), var(--warning));
+    }
+    .memo-card.completed::before {
+        background: linear-gradient(90deg, var(--success), var(--accent));
+    }
+    .memo-card .memo-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .memo-card h4 {
+        font-size: 1rem; margin-bottom: 8px; color: var(--text); line-height: 1.3;
+    }
+    .memo-card .memo-desc {
+        font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5;
+    }
+    .memo-card .memo-start-btn {
+        width: 100%; background: var(--bg); border: 1px solid var(--accent);
+        color: var(--accent); padding: 10px; border-radius: 8px;
+        font-weight: 700; font-size: 0.9rem; cursor: pointer;
+        font-family: inherit; transition: all 0.2s;
+    }
+    .memo-card .memo-start-btn:hover {
+        background: var(--accent); color: #001018;
+    }
+
+    .memo-actions {
+        display: flex; gap: 10px; flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .memo-builder-overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+        z-index: 3000; display: flex; align-items: center; justify-content: center;
+        padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .memo-builder-overlay.show { opacity: 1; pointer-events: auto; }
+    .memo-builder {
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 28px;
+        width: 100%; max-width: 640px;
+        max-height: 90vh; overflow-y: auto;
+        position: relative;
+    }
+    .memo-builder-close {
+        position: absolute; top: 14px; right: 14px;
+        background: transparent; border: none; color: var(--muted);
+        font-size: 1.5rem; cursor: pointer; padding: 4px 10px;
+        border-radius: 6px; transition: all 0.2s; line-height: 1;
+    }
+    .memo-builder-close:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+    
+    .memo-builder-header {
+        display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+        padding-bottom: 16px; border-bottom: 1px dashed var(--border);
+    }
+    .memo-builder-header .memo-icon { font-size: 2.2rem; }
+    .memo-builder-header h3 { font-size: 1.2rem; line-height: 1.3; }
+
+    .memo-builder-instruction {
+        background: rgba(56, 189, 248, 0.07); border-left: 3px solid var(--accent);
+        padding: 12px 14px; border-radius: 0 8px 8px 0;
+        font-size: 0.88rem; color: var(--muted); margin-bottom: 20px;
+    }
+    .memo-builder-instruction strong { color: var(--text); }
+
+    .memo-picked-area {
+        background: var(--bg); border: 2px dashed var(--border);
+        border-radius: 10px; padding: 14px; margin-bottom: 16px;
+        min-height: 80px; transition: border-color 0.2s;
+    }
+    .memo-picked-area.has-items { border-style: solid; border-color: var(--accent); }
+    .memo-picked-label {
+        font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px;
+        color: var(--muted); text-transform: uppercase; margin-bottom: 10px;
+        display: flex; align-items: center; gap: 8px;
+    }
+    .memo-picked-list {
+        list-style: none; display: flex; flex-direction: column; gap: 6px;
+        counter-reset: picked;
+    }
+    .memo-picked-list:empty::before {
+        content: 'Кликай на блоки ниже в правильном порядке...';
+        color: var(--muted); font-size: 0.88rem; font-style: italic;
+        display: block; text-align: center; padding: 10px;
+    }
+    .picked-item {
+        background: var(--card); border: 1px solid var(--success);
+        border-radius: 8px; padding: 10px 12px 10px 40px;
+        font-size: 0.9rem; position: relative;
+        counter-increment: picked;
+        display: flex; align-items: center; gap: 10px;
+        animation: slideIn 0.25s ease-out;
+    }
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    .picked-item::before {
+        content: counter(picked);
+        position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+        width: 22px; height: 22px; border-radius: 50%;
+        background: var(--success); color: #001018;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.75rem; font-weight: 800;
+    }
+    .picked-item .remove-picked {
+        margin-left: auto; background: transparent; border: none;
+        color: var(--muted); cursor: pointer; font-size: 1rem;
+        padding: 2px 6px; border-radius: 4px; transition: all 0.2s;
+    }
+    .picked-item .remove-picked:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+
+    .memo-pool {
+        display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;
+    }
+    .memo-pool-label {
+        font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px;
+        color: var(--muted); text-transform: uppercase; margin-bottom: 4px;
+    }
+    .pool-step {
+        background: var(--bg); border: 1px solid var(--border);
+        border-radius: 8px; padding: 12px 14px;
+        font-size: 0.9rem; cursor: pointer;
+        transition: all 0.2s; text-align: left;
+        color: var(--text); font-family: inherit;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .pool-step:hover:not(:disabled) {
+        border-color: var(--accent); background: var(--card-2);
+        transform: translateX(3px);
+    }
+    .pool-step:disabled {
+        opacity: 0.35; cursor: not-allowed;
+        text-decoration: line-through;
+    }
+    .pool-step.used { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+    .pool-step.shake {
+        animation: shake 0.4s;
+        border-color: var(--danger);
+        background: rgba(239, 68, 68, 0.1);
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-6px); }
+        75% { transform: translateX(6px); }
+    }
+
+    .memo-builder-feedback {
+        padding: 12px 14px; border-radius: 10px;
+        font-size: 0.9rem; margin-bottom: 16px;
+        display: none;
+    }
+    .memo-builder-feedback.show { display: block; }
+    .memo-builder-feedback.success {
+        background: rgba(34, 197, 94, 0.1); border-left: 3px solid var(--success);
+        color: #86efac;
+    }
+    .memo-builder-feedback.error {
+        background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--danger);
+        color: #fca5a5;
+    }
+
+    .memo-builder-actions {
+        display: flex; gap: 10px; flex-wrap: wrap;
+    }
+
     .worksheet-section {
         background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%);
         border: 2px solid var(--accent);
@@ -412,65 +769,27 @@
         text-align: center;
         position: relative;
         overflow: hidden;
-        animation: fadeInUp 0.9s ease-out;
     }
     .worksheet-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
         background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--success));
-        animation: shimmer 3s ease-in-out infinite;
     }
-    @keyframes shimmer {
-        0%, 100% { opacity: 0.6; }
-        50% { opacity: 1; }
-    }
-    .worksheet-icon {
-        font-size: 3rem;
-        margin-bottom: 16px;
-        display: inline-block;
-        animation: bounce 2s ease-in-out infinite;
-    }
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
-    .worksheet-section h3 {
-        font-size: 1.8rem;
-        margin-bottom: 12px;
-        color: var(--accent);
-    }
+    .worksheet-icon { font-size: 3rem; margin-bottom: 16px; display: inline-block; }
+    .worksheet-section h3 { font-size: 1.8rem; margin-bottom: 12px; color: var(--accent); }
     .worksheet-section p {
-        color: var(--muted);
-        margin-bottom: 24px;
-        font-size: 1.05rem;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
+        color: var(--muted); margin-bottom: 24px; font-size: 1.05rem;
+        max-width: 600px; margin-left: auto; margin-right: auto;
     }
     .btn-worksheet {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
+        display: inline-flex; align-items: center; gap: 12px;
         background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-        color: #001018;
-        font-weight: 800;
-        font-size: 1.1rem;
-        padding: 16px 32px;
-        border-radius: 12px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 20px var(--accent-glow);
+        color: #001018; font-weight: 800; font-size: 1.1rem;
+        padding: 16px 32px; border-radius: 12px; text-decoration: none;
+        transition: all 0.3s ease; box-shadow: 0 4px 20px var(--accent-glow);
     }
     .btn-worksheet:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 30px rgba(56, 189, 248, 0.5);
-    }
-    .btn-worksheet:active {
-        transform: translateY(-1px);
     }
 
     footer { text-align: center; padding: 40px 20px 20px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 40px; }
@@ -484,7 +803,12 @@
     }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 30px; } }
+    @media (max-width: 900px) { 
+        .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+        .parts-list { gap: 8px; }
+        .part-item { padding: 10px 12px; }
+        .case-card { position: static; }
+    }
     @media (max-width: 768px) {
         .burger { display: block; }
         nav ul {
@@ -496,7 +820,7 @@
         nav ul li { border-top: 1px solid var(--border); }
         nav a.nav-link { display: block; padding: 16px 22px; font-size: 1rem; }
         nav a.nav-link::after { display: none; }
-        .input-group { flex-direction: column; }
+        .input-group, .add-item-form { flex-direction: column; }
         .module { padding: 20px; }
         section { padding: 50px 0; }
         .hero { padding: 60px 0 50px; }
@@ -506,6 +830,13 @@
         .worksheet-section { padding: 30px 20px; }
         .worksheet-section h3 { font-size: 1.5rem; }
         .btn-worksheet { width: 100%; justify-content: center; }
+        .dossier-folder { padding: 22px 18px; }
+        .dossier-stamp { font-size: 0.6rem; padding: 4px 8px; top: 16px; right: 16px; }
+        .memo-builder { padding: 20px; }
+        .memo-builder-header h3 { font-size: 1.05rem; }
+        .investigation-parts { padding: 16px; }
+        .part-item { flex-direction: column; align-items: flex-start; }
+        .part-icon { align-self: flex-end; }
     }
     @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
@@ -514,19 +845,55 @@
 
     @media print {
         body { background: #fff; color: #000; }
-        header, footer, .hero, .btn, .toast, .burger, .quiz-actions, .worksheet-section { display: none !important; }
+        header, footer, .hero, .btn, .toast, .burger, .quiz-actions,
+        .worksheet-section, .add-item-form, .item-remove, .hints-block,
+        .dossier-actions, .dossier-stamp, .memo-builder-overlay,
+        .memo-actions, .investigation-parts { display: none !important; }
         
-        body.printing-checklist section { display: none !important; }
-        body.printing-checklist #checklist { display: block !important; padding: 0; }
-        body.printing-checklist #checklist h2, body.printing-checklist #checklist .subtitle { color: #000; }
-        body.printing-checklist .section-label, body.printing-checklist .security-level { display: none; }
-        body.printing-checklist .rule { border: 1px solid #ccc; background: #fff; break-inside: avoid; display: flex !important; }
-        body.printing-checklist .rule input[type="checkbox"] { border: 2px solid #000; }
-        body.printing-checklist .rule input[type="checkbox"]:checked { background: #000; border-color: #000; }
-        body.printing-checklist .rule input[type="checkbox"]:checked::after { color: #fff; }
-        body.printing-checklist .rule .rule-text b { color: #000; }
-        body.printing-checklist .rule .rule-text span { color: #444; }
-        body.printing-checklist .rule.checked { border-color: #000; }
+        body.printing-dossier section { display: none !important; }
+        body.printing-dossier #dossier { display: block !important; padding: 0; }
+        body.printing-dossier #dossier h2, body.printing-dossier #dossier .subtitle { color: #000; }
+        body.printing-dossier .section-label { display: none; }
+        body.printing-dossier .dossier-folder {
+            background: #fff; border: 2px solid #000; box-shadow: none;
+        }
+        body.printing-dossier .dossier-title,
+        body.printing-dossier .memo-section h3 { color: #000; }
+        body.printing-dossier .dossier-subtitle,
+        body.printing-dossier .memo-section .subtitle { color: #333; }
+        body.printing-dossier .my-items-block,
+        body.printing-dossier .memo-card {
+            background: #fff; border: 1px solid #ccc; break-inside: avoid;
+        }
+        body.printing-dossier .dossier-item {
+            background: #fff; border: 1px solid #ccc;
+        }
+        body.printing-dossier .item-checkbox { border: 2px solid #000; }
+        body.printing-dossier .item-checkbox:checked { background: #000; border-color: #000; }
+        body.printing-dossier .item-checkbox:checked::after { color: #fff; }
+        body.printing-dossier .item-text { color: #000; }
+        body.printing-dossier .dossier-item.checked .item-text { color: #000; }
+        body.printing-dossier .memo-card h4 { color: #000; }
+        body.printing-dossier .memo-card .memo-desc { color: #333; }
+        body.printing-dossier .memo-card .memo-start-btn { display: none; }
+        body.printing-dossier .empty-state { color: #666; }
+        body.printing-dossier .memo-section { display: none !important; }
+
+        body.printing-memo section { display: none !important; }
+        body.printing-memo #dossier { display: block !important; padding: 0; }
+        body.printing-memo #dossier h2, body.printing-memo #dossier .subtitle { color: #000; }
+        body.printing-memo .section-label { display: none; }
+        body.printing-memo .dossier-folder { display: none !important; }
+        body.printing-memo .memo-section { display: block !important; }
+        body.printing-memo .memo-section h3 { color: #000; }
+        body.printing-memo .memo-section .subtitle { color: #333; }
+        body.printing-memo .memo-card {
+            background: #fff; border: 2px solid #000; break-inside: avoid;
+        }
+        body.printing-memo .memo-card h4 { color: #000; }
+        body.printing-memo .memo-card .memo-desc { color: #333; }
+        body.printing-memo .memo-card .memo-start-btn { display: none; }
+        body.printing-memo .memo-scenarios { display: block !important; }
     }
 </style>
 </head>
@@ -536,7 +903,7 @@
     <style>body { background: #fff; color: #000; padding: 20px; }</style>
     <div style="max-width: 600px; margin: 40px auto; text-align: center; font-family: sans-serif;">
         <h1>⚠️ Требуется JavaScript</h1>
-        <p>Этот интерактивный тренажёр по кибербезопасности работает только с включённым JavaScript. Пожалуйста, включите его в настройках браузера, чтобы пройти квест и проверить свои знания.</p>
+        <p>Этот интерактивный тренажёр по кибербезопасности работает только с включённым JavaScript.</p>
     </div>
 </noscript>
 
@@ -548,7 +915,7 @@
             <li><a class="nav-link" href="#threats">Угрозы</a></li>
             <li><a class="nav-link" href="#practice">Тренажёры</a></li>
             <li><a class="nav-link" href="#quiz">Квест</a></li>
-            <li><a class="nav-link" href="#checklist">Чек-лист</a></li>
+            <li><a class="nav-link" href="#dossier">Дело агента</a></li>
             <li><a class="nav-link" href="#conclusion">Итоги</a></li>
         </ul>
     </nav>
@@ -565,9 +932,55 @@
                     Вчера одноклассник перешёл по ссылке из Telegram — и потерял доступ к почте, играм и соцсетям за 15 минут. 
                     Сегодня ты — кибер-детектив. Пройди испытания, собери улики и узнай, где именно он ошибся.
                 </p>
+                
+                <div class="investigation-parts">
+                    <h4>📂 Части расследования</h4>
+                    <div class="parts-list">
+                        <a href="#threats" class="part-item">
+                            <div class="part-number">01</div>
+                            <div class="part-content">
+                                <div class="part-title">Восемь главных угроз</div>
+                                <div class="part-desc">Изучи основные схемы мошенников и хакеров</div>
+                            </div>
+                            <div class="part-icon">🎣</div>
+                        </a>
+                        <a href="#practice" class="part-item">
+                            <div class="part-number">02</div>
+                            <div class="part-content">
+                                <div class="part-title">Тренажёры</div>
+                                <div class="part-desc">Проверь пароль, найди фишинг, сравни 2FA, расшифруй шифр</div>
+                            </div>
+                            <div class="part-icon">🔐</div>
+                        </a>
+                        <a href="#quiz" class="part-item">
+                            <div class="part-number">03</div>
+                            <div class="part-content">
+                                <div class="part-title">Кибер-квест</div>
+                                <div class="part-desc">7 вопросов о реальных ситуациях из жизни</div>
+                            </div>
+                            <div class="part-icon">🎯</div>
+                        </a>
+                        <a href="#dossier" class="part-item">
+                            <div class="part-number">04</div>
+                            <div class="part-content">
+                                <div class="part-title">Личное дело агента</div>
+                                <div class="part-desc">Составь свой чек-лист защиты и собери алгоритмы действий</div>
+                            </div>
+                            <div class="part-icon">🕵️</div>
+                        </a>
+                        <a href="#conclusion" class="part-item">
+                            <div class="part-number">05</div>
+                            <div class="part-content">
+                                <div class="part-title">Закрытие дела</div>
+                                <div class="part-desc">Выводы, источники и правовая справка</div>
+                            </div>
+                            <div class="part-icon">📋</div>
+                        </a>
+                    </div>
+                </div>
+                
                 <div class="hero-actions">
                     <a href="#threats" class="btn">Начать расследование →</a>
-                    <a href="#quiz" class="btn btn-ghost">Сразу к квесту</a>
                 </div>
             </div>
             <aside class="case-card" aria-label="Сводка по делу">
@@ -575,9 +988,8 @@
                 <h3>Сводка происшествия</h3>
                 <p>Пострадавший: ученик 8 класса.<br>Потерян доступ: почта, игровой аккаунт, соцсеть.<br>Время до взлома: ~15 минут.</p>
                 <div class="meta">
-                    <span>📁 Улик в деле: <b>4 испытания</b></span>
+                    <span>📁 Улик в деле: <b>4 модуля + квест</b></span>
                     <span>🎯 Цель: <b>понять схему атаки</b></span>
-                    <span>⏱️ Время: <b>10–15 минут</b></span>
                 </div>
             </aside>
         </div>
@@ -610,7 +1022,7 @@
             <div class="strength-meter" aria-hidden="true"><div id="strengthBar" class="strength-bar"></div></div>
             <div class="strength-labels" aria-hidden="true"><span>Слабый</span><span>Средний</span><span>Надёжный</span></div>
             <p id="passwordResult" class="result">Введите пароль, чтобы проверить время подбора.</p>
-            <div class="info-box">💡 <strong>Связь с информатикой:</strong> сервисы хранят не пароль, а его <em>хэш</em>. Хэш нельзя расшифровать, но можно подобрать перебором. Поэтому важна длина и разнообразие символов.</div>
+            <div class="info-box">💡 <strong>Связь с информатикой:</strong> сервисы хранят не пароль, а его <em>хэш</em>. Хэш нельзя расшифровать, но можно подобрать перебором.</div>
         </div>
 
         <div class="module">
@@ -644,26 +1056,26 @@
                     <div class="tfa-icon">📱</div>
                     <div class="tfa-title">SMS-код</div>
                     <span class="tfa-badge badge-med">Лучше, чем ничего</span>
-                    <div class="tfa-desc"><strong>Риск:</strong> SIM-карту можно клонировать или оформить перевыпуск через социальную инженерию. Перехват SMS через уязвимости в сетях мобильной связи (SS7) также возможен. <em>Включать стоит, но приложение надёжнее.</em></div>
+                    <div class="tfa-desc"><strong>Риск:</strong> SIM-карту можно клонировать. Перехват SMS через SS7-атаки возможен. <em>Приложение надёжнее.</em></div>
                 </div>
                 <div class="tfa-card" tabindex="0" role="button" aria-pressed="false">
                     <div class="tfa-icon">🔐</div>
                     <div class="tfa-title">Приложение-аутентификатор</div>
                     <span class="tfa-badge badge-high">Высокая защита</span>
-                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Коды генерируются локально на твоём устройстве (Google Authenticator, Яндекс.Ключ). Их невозможно перехватить через сеть или оператора.</div>
+                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Коды генерируются локально (Google Authenticator, Яндекс.Ключ). Перехватить через сеть невозможно.</div>
                 </div>
                 <div class="tfa-card" tabindex="0" role="button" aria-pressed="false">
                     <div class="tfa-icon">🔑</div>
                     <div class="tfa-title">Физический ключ (YubiKey)</div>
                     <span class="tfa-badge badge-high">Максимальная защита</span>
-                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Аппаратное устройство, которое вставляется в USB. Поддерживает современный стандарт защиты FIDO2. Фишинг невозможен в принципе.</div>
+                    <div class="tfa-desc"><strong>Почему это лучше:</strong> Аппаратное устройство с протоколом FIDO2. Фишинг невозможен в принципе.</div>
                 </div>
             </div>
         </div>
 
         <div class="module">
             <div class="module-head"><div class="module-num">04</div><h3>Шифр Цезаря: расшифруй послание</h3></div>
-            <p class="hint">Информатика: сдвиг символов. Поддерживает русский, английский алфавит и цифры.</p>
+            <p class="hint">Информатика: сдвиг символов. Поддерживает русский, английский алфавит и цифры. Для латиницы сдвиг сворачивается по модулю 26.</p>
             <div class="task-box">
                 <div class="task-label">🎯 Задание</div>
                 <div class="task-text" id="taskText">---</div>
@@ -705,22 +1117,48 @@
         </div>
     </section>
 
-    <section id="checklist">
+    <section id="dossier">
         <span class="section-label">Итог расследования</span>
-        <h2>Твой уровень киберзащищённости</h2>
-        <p class="subtitle">Отмечай пункты, которые ты уже выполнил. Данные сохраняются в браузере.</p>
-        
-        <div class="security-level">
-            <div class="level-text" id="levelText">Уровень: Новичок</div>
-            <div class="level-bar"><div class="level-fill" id="levelFill"></div></div>
-            <div class="level-sub" id="levelSub">Выполни действия ниже, чтобы повысить защиту.</div>
+        <h2>Личное дело агента</h2>
+        <p class="subtitle">Составь свой личный чек-лист цифровой безопасности. Отмечай галочкой то, что уже сделал. Удалять пункт можно крестиком справа.</p>
+
+        <div class="dossier-folder">
+            <div class="dossier-stamp">ДЕЛО<br>ЗАКРЫТО</div>
+            <div class="dossier-title">🕵️ Персональное досье</div>
+            <p class="dossier-subtitle">Агент: <b style="color: var(--text);">юный детектив</b> · Статус: <b style="color: var(--success);">активная защита</b></p>
+
+            <div class="hints-block">
+                <h4>💡 Подсказки — о чём можно написать пункт</h4>
+                <div id="hintsList"></div>
+            </div>
+
+            <div class="my-items-block">
+                <h4>📋 Мои пункты</h4>
+                <form class="add-item-form" id="addItemForm">
+                    <label for="newItemInput" class="sr-only">Новый пункт</label>
+                    <input type="text" id="newItemInput" placeholder="Например: включу 2FA в почте" maxlength="120" autocomplete="off">
+                    <button type="submit" class="btn-add" aria-label="Добавить пункт">+ Добавить</button>
+                </form>
+                <ul class="items-list" id="itemsList"></ul>
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">📝</div>
+                    <div>Пока пусто. Введи свой первый пункт выше и нажми «+ Добавить».</div>
+                </div>
+            </div>
+
+            <div class="dossier-actions">
+                <button class="btn" id="printDossier" type="button">🖨️ Распечатать досье</button>
+                <button class="btn btn-ghost" id="resetDossier" type="button">Сбросить всё</button>
+            </div>
         </div>
 
-        <div class="checklist" id="checklistGrid"></div>
-
-        <div class="quiz-actions" style="margin-top: 24px;">
-            <button class="btn" id="printChecklist" type="button">🖨️ Распечатать чек-лист</button>
-            <button class="btn btn-ghost" id="resetChecklist" type="button">Сбросить прогресс</button>
+        <div class="memo-section">
+            <h3>🚨 Памятка: собери алгоритм действий</h3>
+            <p class="subtitle">Четыре экстренные ситуации. В каждой — перемешанные шаги и ловушки. Твоя задача: кликать по шагам в правильном порядке и не попасться на ложные советы.</p>
+            <div class="memo-scenarios" id="memoScenarios"></div>
+            <div class="memo-actions">
+                <button class="btn" id="printMemo" type="button">🖨️ Распечатать памятку</button>
+            </div>
         </div>
     </section>
 
@@ -738,25 +1176,6 @@
                 </ul>
             </div>
             <div class="panel">
-                <h3>🚨 Алгоритм при взломе</h3>
-                <ul>
-                    <li><strong>1.</strong> Смени пароль с <em>другого</em> устройства (телефона или другого ПК).</li>
-                    <li><strong>2.</strong> В настройках аккаунта нажми «Завершить все сеансы».</li>
-                    <li><strong>3.</strong> Проверь правила пересылки почты и привязанные номера телефонов.</li>
-                    <li><strong>4.</strong> Сообщи в поддержку сервиса и расскажи родителям/учителю.</li>
-                    <li><strong>5.</strong> Если были угрозы или вымогательство — сохрани скриншоты и обратись в полицию.</li>
-                </ul>
-            </div>
-            <div class="panel">
-                <h3>⚖️ Правовая справка</h3>
-                <ul>
-                    <li>Уголовная ответственность за неправомерный доступ к компьютерной информации (ст. 272 УК РФ) наступает с <strong>16 лет</strong>.</li>
-                    <li>За кибербуллинг и распространение личных данных предусмотрена административная ответственность, а с 14 лет — и уголовная.</li>
-                    <li>Жертва травли <strong>никогда не виновата</strong>. Важно сохранить скриншоты и не вступать в перепалку.</li>
-                    <li>Сообщить о преступлении можно через сайт <strong>МВД РФ</strong> или <strong>Роскомнадзор</strong>.</li>
-                </ul>
-            </div>
-            <div class="panel">
                 <h3>📚 Источники</h3>
                 <ul class="sources-list">
                     <li><b>Лаборатория Касперского</b> — <a href="https://kids.kaspersky.ru" target="_blank" rel="noopener">kids.kaspersky.ru</a></li>
@@ -768,11 +1187,10 @@
         </div>
     </section>
 
-    <!-- Секция рабочего листа (перемещена в конец основного контента) -->
     <section id="worksheet" class="worksheet-section">
         <div class="worksheet-icon">📝</div>
         <h3>Рабочий лист по кибербезопасности</h3>
-        <p>Закрепи полученные знания! Перейди по ссылке ниже, чтобы получить доступ к рабочему листу с дополнительными заданиями, проверочными вопросами и практическими кейсами для самостоятельной работы.</p>
+        <p>Закрепи полученные знания! Перейди по ссылке ниже, чтобы получить доступ к рабочему листу с дополнительными заданиями.</p>
         <a href="https://sanjur20172-hue.github.io/rab_list2/" target="_blank" rel="noopener" class="btn-worksheet">
             <span>📥</span>
             <span>Перейти к рабочему листу</span>
@@ -787,6 +1205,29 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="memo-builder-overlay" id="memoBuilderOverlay">
+    <div class="memo-builder" role="dialog" aria-modal="true" aria-labelledby="memoBuilderTitle">
+        <button class="memo-builder-close" id="memoBuilderClose" aria-label="Закрыть">✕</button>
+        <div class="memo-builder-header">
+            <div class="memo-icon" id="memoBuilderIcon"></div>
+            <h3 id="memoBuilderTitle"></h3>
+        </div>
+        <div class="memo-builder-instruction">
+            <strong>🎯 Задание:</strong> кликай на шаги в правильном порядке. Среди блоков есть <em>ложные советы</em> — не попадайся на них! Если ошибёшься — шаг подсветится красным и сбросится.
+        </div>
+        <div class="memo-picked-area" id="memoPickedArea">
+            <div class="memo-picked-label">📋 Твой алгоритм</div>
+            <ol class="memo-picked-list" id="memoPickedList"></ol>
+        </div>
+        <div class="memo-builder-feedback" id="memoFeedback"></div>
+        <div class="memo-pool-label">🧩 Блоки для сборки (перемешаны)</div>
+        <div class="memo-pool" id="memoPool"></div>
+        <div class="memo-builder-actions">
+            <button class="btn btn-ghost" id="memoReset" type="button">🔄 Начать заново</button>
+        </div>
+    </div>
+</div>
 
 <script>
 (function () {
@@ -866,43 +1307,24 @@
         if (/[^a-zA-Z0-9а-яА-ЯёЁ]/.test(pwd)) pool += 33;
         return pool || 1;
     }
-    
     function isKeyboardWalk(pwd) {
         if (pwd.length < 4) return false;
-        const rows = [
-            'qwertyuiop', 'asdfghjkl', 'zxcvbnm',
-            'йцукенгшщзхъ', 'фывапролджэ', 'ячсмитьбю'
-        ];
-        const p = pwd.toLowerCase();
-        return rows.some(r => r.includes(p));
+        const rows = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm', 'йцукенгшщзхъ', 'фывапролджэ', 'ячсмитьбю'];
+        return rows.some(r => r.includes(pwd.toLowerCase()));
     }
-
     function isAlphabetRun(pwd) {
         const s = pwd.toLowerCase();
-        const alphabets = [
-            'abcdefghijklmnopqrstuvwxyz',
-            '0123456789',
-            'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
-        ];
+        const alphabets = ['abcdefghijklmnopqrstuvwxyz', '0123456789', 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'];
         for (const a of alphabets) {
             for (let i = 0; i <= s.length - 4; i++) {
-                const x = a.indexOf(s[i]);
-                const y = a.indexOf(s[i+1]);
-                const z = a.indexOf(s[i+2]);
-                const w = a.indexOf(s[i+3]);
+                const x = a.indexOf(s[i]), y = a.indexOf(s[i+1]), z = a.indexOf(s[i+2]), w = a.indexOf(s[i+3]);
                 if (x !== -1 && y === x + 1 && z === x + 2 && w === x + 3) return true;
                 if (x !== -1 && y === x - 1 && z === x - 2 && w === x - 3) return true;
             }
         }
         return false;
     }
-
-    const COMMON_PASSWORDS = new Set([
-        'qwerty', 'password', '123456', 'qwerty123', 'йцукен', 'пароль', 
-        'admin', '111111', '12345678', '123456789', '1234567890', 'letmein',
-        'welcome', 'monkey', 'dragon', 'master', 'login', 'abc123', 'iloveyou'
-    ]);
-    
+    const COMMON_PASSWORDS = new Set(['qwerty', 'password', '123456', 'qwerty123', 'йцукен', 'пароль', 'admin', '111111', '12345678', '123456789', '1234567890', 'letmein', 'welcome', 'monkey', 'dragon', 'master', 'login', 'abc123', 'iloveyou']);
     function isWeakPattern(pwd) {
         const low = pwd.toLowerCase();
         if (COMMON_PASSWORDS.has(low)) return true;
@@ -911,7 +1333,6 @@
         if (isAlphabetRun(low)) return true;
         return false;
     }
-
     function formatTime(seconds) {
         if (seconds < 1) return 'мгновенно';
         if (seconds < 60) return Math.round(seconds) + ' сек.';
@@ -923,17 +1344,14 @@
         if (y < 1e6) return Math.round(y / 1e3) + ' тыс. лет';
         return 'млн лет';
     }
-
     function checkPassword() {
         const pwd = pwdInput.value;
         if (!pwd) { strengthBar.style.width = '0%'; pwdResult.textContent = 'Введите пароль, чтобы проверить время подбора.'; return; }
-        
         if (isWeakPattern(pwd)) {
             strengthBar.style.width = '10%'; strengthBar.style.backgroundColor = 'var(--danger)';
             pwdResult.innerHTML = '⚠️ <strong>Слабый пароль.</strong> Используется шаблон, последовательность или слово из словаря.<br><span class="entropy-tag">Подбирается мгновенно</span>';
             return;
         }
-
         const pool = calcPoolSize(pwd);
         const entropy = pwd.length * Math.log2(pool);
         const seconds = Math.pow(2, entropy - 1) / 1e10;
@@ -941,7 +1359,6 @@
         if (entropy < 40) { level = 33; color = 'var(--danger)'; label = '⚠️ <strong>Слабый пароль.</strong>'; }
         else if (entropy < 70) { level = 66; color = 'var(--warning)'; label = '🟡 <strong>Средний пароль.</strong>'; }
         else { level = 100; color = 'var(--success)'; label = '🟢 <strong>Надёжный пароль!</strong>'; }
-        
         strengthBar.style.width = level + '%'; strengthBar.style.backgroundColor = color;
         pwdResult.innerHTML = label + ' Время подбора: <em>' + formatTime(seconds) + '</em>.<br><span class="entropy-tag">Энтропия: ' + entropy.toFixed(1) + ' бит</span>';
     }
@@ -958,10 +1375,9 @@
             showToast('Скопировано. Не забудьте очистить буфер обмена!');
         } catch {
             pwdInput.select();
-            showToast('Не удалось скопировать автоматически — выделите текст и нажмите Ctrl+C');
+            showToast('Не удалось скопировать — выделите текст и нажмите Ctrl+C');
         }
     });
-    
     function secureRandomInt(max) {
         if (max <= 0) return 0;
         const maxValid = 0xFFFFFFFF - (0xFFFFFFFF % max);
@@ -973,12 +1389,9 @@
         } while (val >= maxValid);
         return val % max;
     }
-    
     function generatePassword(length = 16) {
-        const lower = 'abcdefghjkmnpqrstuvwxyz';
-        const upper = 'ABCDEFGHJKMNPQRSTUVWXYZ';
-        const digits = '23456789';
-        const symbols = '!@#$%^&*()-_=+[]{}';
+        const lower = 'abcdefghjkmnpqrstuvwxyz', upper = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+        const digits = '23456789', symbols = '!@#$%^&*()-_=+[]{}';
         const all = lower + upper + digits + symbols;
         const chars = [lower[secureRandomInt(lower.length)], upper[secureRandomInt(upper.length)], digits[secureRandomInt(digits.length)], symbols[secureRandomInt(symbols.length)]];
         while (chars.length < length) chars.push(all[secureRandomInt(all.length)]);
@@ -1006,7 +1419,6 @@
         $('phishingLog').innerHTML = phishingLogEntries.map(e => `<div class="entry">${e}</div>`).join('');
         $('phishingLog').scrollTop = $('phishingLog').scrollHeight;
     }
-    
     function handleEvidenceClick(e) {
         const el = e.target.closest('.evidence');
         if (!el || el.classList.contains('done')) return;
@@ -1033,7 +1445,6 @@
             e.preventDefault(); handleEvidenceClick(e);
         }
     });
-
     $('revealPhishing').addEventListener('click', () => {
         let revealed = 0;
         $('emailBody').querySelectorAll('.evidence[data-suspicious="true"]').forEach(el => {
@@ -1043,8 +1454,7 @@
             }
         });
         if (revealed > 0) { 
-            updatePhishingLog(); 
-            showToast('Раскрыто улик: ' + revealed);
+            updatePhishingLog(); showToast('Раскрыто улик: ' + revealed);
             if (phishingFound === phishingTotal) {
                 phishingLogEntries.push(`📌 <span class="ok">👍 Все улики найдены с помощью подсказок.</span>`);
                 updatePhishingLog();
@@ -1077,9 +1487,7 @@
     }
     const TASK_ENCRYPTED = caesar(TASK_SECRET, TASK_SHIFT, 'encrypt');
     let cipherMode = 'decrypt';
-    
     const norm = s => s.trim().toLowerCase().replace(/\s+/g, ' ');
-
     function updateCipher() {
         const shift = parseInt($('shift').value, 10) || 1;
         $('shiftValue').textContent = shift;
@@ -1092,7 +1500,6 @@
         }
         const out = caesar(text, shift, cipherMode);
         $('cipherResult').textContent = out;
-        
         if (cipherMode === 'decrypt' && norm(out) === norm(TASK_SECRET)) {
             $('taskStatus').classList.add('success');
             $('taskStatus').textContent = '🎉 Верно! Послание расшифровано: «' + TASK_SECRET + '»';
@@ -1116,49 +1523,35 @@
     const quizData = [
         { q: 'Сообщение от друга: «Проголосуй по ссылке bit.ly/3x8Z». Твои действия?', options: ['Перейду и проголосую.', 'Переспрошу друга голосом или по телефону.', 'Отправлю в школьный чат.'], correct: 1, explain: 'Аккаунт друга могли взломать. Проверяй по другому каналу связи.' },
         { q: 'Письмо от «банка»: «Карта заблокирована, подтвердите данные по ссылке». Что это?', options: ['Обычное уведомление.', 'Реклама.', 'Фишинг — попытка украсть данные.'], correct: 2, explain: 'Банки никогда не просят подтверждать данные по ссылке из письма.' },
-        { q: 'Один и тот же пароль на почте, в соцсетях и в игре. Чем это опасно?', options: ['Ничем.', 'Если утечёт один сервис — злоумышленник войдёт во все.', 'Опасно только если пароль короткий.'], correct: 1, explain: 'Это атака повторного использования паролей (credential stuffing). Один пароль = ключ ко всем дверям.' },
+        { q: 'Один и тот же пароль на почте, в соцсетях и в игре. Чем это опасно?', options: ['Ничем.', 'Если утечёт один сервис — злоумышленник войдёт во все.', 'Опасно только если пароль короткий.'], correct: 1, explain: 'Это credential stuffing. Один пароль = ключ ко всем дверям.' },
         { q: 'В кафе нужно зайти в почту. Что безопаснее?', options: ['Открытый Wi-Fi кафе.', 'Раздать интернет с телефона (HTTPS).', 'Пароль от Wi-Fi у официанта.'], correct: 1, explain: 'Открытые сети легко прослушиваются. Мобильный интернет + HTTPS — безопасный вариант.' },
         { q: 'В мессенджер: «Мама, я попал в беду, срочно скинь 5000 ₽». Что делать?', options: ['Срочно перевести.', 'Позвонить по известному номеру и уточнить.', 'Написать «это ты?»'], correct: 1, explain: 'Звони по номеру, который записан у тебя в телефоне, а не по присланному.' },
-        { q: 'Зачем нужна 2FA через приложение, а не SMS?', options: ['Вводить два пароля.', 'SMS можно перехватить, а приложение генерирует код локально.', 'Это просто усложнение.'], correct: 1, explain: '2FA через приложение блокирует ~99% атак, код невозможно перехватить через оператора.' },
+        { q: 'Зачем нужна 2FA через приложение, а не SMS?', options: ['Вводить два пароля.', 'SMS можно перехватить, а приложение генерирует код локально.', 'Это просто усложнение.'], correct: 1, explain: '2FA через приложение блокирует ~99% атак.' },
         { q: 'Незнакомец в игре просит логин, чтобы «подарить скин». Твои действия?', options: ['Дам логин.', 'Откажусь и заблокирую.', 'Дам логин, но поменяю пароль.'], correct: 1, explain: 'Никогда не сообщай логин. Смена пароля после передачи данных уже не поможет.' }
     ];
-
     let quizState = storage.get('quizProgress');
-    if (!quizState || typeof quizState !== 'object') {
-        quizState = { index: 0, score: 0, answered: false };
-    }
+    if (!quizState || typeof quizState !== 'object') quizState = { index: 0, score: 0, answered: false };
     let quizIndex = Math.max(0, Math.min(quizState.index, quizData.length - 1));
     let quizScore = Math.max(0, Math.min(quizState.score || 0, quizData.length));
     let quizAnswered = quizState.answered;
     const LETTERS = ['A', 'B', 'C', 'D'];
-
     function saveQuizState(overrides = {}) {
-        quizState = {
-            ...quizState,
-            index: quizIndex,
-            score: quizScore,
-            answered: quizAnswered,
-            ...overrides
-        };
+        quizState = { ...quizState, index: quizIndex, score: quizScore, answered: quizAnswered, ...overrides };
         storage.set('quizProgress', quizState);
     }
-
     function getQuizEls() {
         return {
             counter: $('quizCounter'), score: $('quizScoreLabel'), progress: $('quizProgressBar'),
             question: $('questionText'), options: $('quizOptions'), feedback: $('quizFeedback'), next: $('quizNext')
         };
     }
-
     function answerQuiz(choiceIndex) {
         if (quizAnswered) return;
         quizAnswered = true;
-        
         const item = quizData[quizIndex];
         const els = getQuizEls();
         const buttons = els.options.querySelectorAll('.quiz-option');
         buttons.forEach(b => b.disabled = true);
-
         if (choiceIndex === item.correct) {
             quizScore++;
             buttons[choiceIndex].classList.add('correct');
@@ -1175,37 +1568,28 @@
         els.progress.style.width = ((quizIndex + 1) / quizData.length * 100) + '%';
         els.next.hidden = false;
         els.next.focus();
-        
         saveQuizState({ chosen: choiceIndex });
     }
-
     function onQuizNext() {
         if (quizIndex < quizData.length - 1) { 
-            quizIndex++; 
-            quizAnswered = false;
+            quizIndex++; quizAnswered = false;
             saveQuizState({ chosen: null });
             renderQuestion(); 
-        } else { 
-            finishQuiz(); 
-        }
+        } else { finishQuiz(); }
     }
-
     function renderQuestion() {
         const item = quizData[quizIndex];
         const els = getQuizEls();
         els.counter.textContent = 'Вопрос ' + (quizIndex + 1) + ' из ' + quizData.length;
         els.score.textContent = 'Правильно: ' + quizScore;
-        
         const progressPercent = quizAnswered ? ((quizIndex + 1) / quizData.length * 100) : (quizIndex / quizData.length * 100);
         els.progress.style.width = progressPercent + '%';
-        
         els.question.textContent = item.q;
         els.feedback.classList.remove('show');
         els.feedback.textContent = '';
         els.next.hidden = true;
         els.next.textContent = 'Далее →';
         els.options.innerHTML = '';
-        
         item.options.forEach((text, i) => {
             const btn = document.createElement('button');
             btn.type = 'button'; btn.className = 'quiz-option';
@@ -1214,7 +1598,6 @@
             els.options.appendChild(btn);
         });
         els.next.onclick = onQuizNext;
-
         if (quizAnswered && quizState.chosen != null) {
             const buttons = els.options.querySelectorAll('.quiz-option');
             buttons.forEach((b, i) => {
@@ -1229,7 +1612,6 @@
             els.next.hidden = false;
         }
     }
-
     function finishQuiz() {
         storage.remove('quizProgress');
         const percent = Math.round(quizScore / quizData.length * 100);
@@ -1237,7 +1619,7 @@
         if (percent >= 85) { verdict = '🏆 Отличный детектив!'; sub = 'Ты уверенно распознаёшь угрозы.'; color = 'var(--success)'; }
         else if (percent >= 60) { verdict = '👍 Хороший результат'; sub = 'База есть, но пара схем ещё может обмануть.'; color = 'var(--warning)'; }
         else { verdict = '📚 Стоит повторить'; sub = 'Пройди тренажёры заново.'; color = 'var(--danger)'; }
-
+        
         const quizCard = $('quizCard');
         quizCard.innerHTML = `
             <div class="quiz-final">
@@ -1250,7 +1632,6 @@
                     <button class="btn btn-ghost" id="quizRestart" type="button">Пройти заново</button>
                 </div>
             </div>`;
-
         $('quizRestart').addEventListener('click', () => {
             quizIndex = 0; quizScore = 0; quizAnswered = false;
             storage.remove('quizProgress');
@@ -1262,88 +1643,7 @@
             renderQuestion();
         });
     }
-
-    $('printChecklist').addEventListener('click', () => {
-        const cleanup = () => {
-            document.body.classList.remove('printing-checklist');
-            window.removeEventListener('afterprint', cleanup);
-        };
-        window.addEventListener('afterprint', cleanup);
-        setTimeout(cleanup, 15000);
-        document.body.classList.add('printing-checklist');
-        window.print();
-    });
-
     renderQuestion();
-
-    const checklistData = [
-        { id: 'pass-manager', text: 'Использую менеджер паролей', sub: 'KeePass, Bitwarden или встроенный в ОС.' },
-        { id: '2fa-main', text: 'Включил 2FA (приложение) на почте и в соцсетях', sub: 'Google Authenticator, Яндекс.Ключ.' },
-        { id: 'domain-check', text: 'Всегда проверяю домен перед вводом данных', sub: 'Одна неверная буква — поддельный сайт.' },
-        { id: 'no-sms-links', text: 'Не перехожу по ссылкам из неожиданных SMS', sub: 'Даже если их прислал «друг» или «банк».' },
-        { id: 'no-cvv-share', text: 'Никому не сообщаю коды из SMS и CVV', sub: 'Даже «сотруднику банка».' },
-        { id: 'updates', text: 'Обновляю браузер и приложения вовремя', sub: 'Обновления закрывают дыры в безопасности.' },
-        { id: 'public-wifi', text: 'Не захожу в важные аккаунты через открытый Wi-Fi', sub: 'Использую мобильный интернет.' },
-        { id: 'privacy', text: 'Настроил приватность: закрыл профиль, убрал геолокацию', sub: 'Ограничил круг тех, кто видит мои посты.' },
-        { id: 'pwned-check', text: 'Проверил свою почту на haveibeenpwned.com', sub: 'Если была утечка — сменил пароль.' },
-        { id: 'adults', text: 'Знаю алгоритм действий при взломе', sub: 'Чем быстрее расскажу взрослым, тем лучше.' }
-    ];
-
-    function loadChecklist() {
-        const saved = storage.get('cyberChecklist') || {};
-        const grid = $('checklistGrid');
-        grid.innerHTML = '';
-        let checkedCount = 0;
-
-        checklistData.forEach(item => {
-            const isChecked = saved[item.id] || false;
-            if (isChecked) checkedCount++;
-
-            const el = document.createElement('label');
-            el.className = 'rule' + (isChecked ? ' checked' : '');
-            el.innerHTML = `<input type="checkbox" data-id="${item.id}" ${isChecked ? 'checked' : ''}><div class="rule-text"><b>${item.text}</b><span>${item.sub}</span></div>`;
-            
-            el.querySelector('input').addEventListener('change', (e) => {
-                const currentSaved = storage.get('cyberChecklist') || {};
-                currentSaved[e.target.dataset.id] = e.target.checked;
-                storage.set('cyberChecklist', currentSaved);
-                el.classList.toggle('checked', e.target.checked);
-                updateSecurityLevel();
-            });
-            grid.appendChild(el);
-        });
-        updateSecurityLevel(checkedCount);
-    }
-
-    function updateSecurityLevel(checkedCount) {
-        if (checkedCount === undefined) {
-            const saved = storage.get('cyberChecklist') || {};
-            checkedCount = Object.values(saved).filter(Boolean).length;
-        }
-        const percent = (checkedCount / checklistData.length) * 100;
-        const fill = $('levelFill');
-        const text = $('levelText');
-        const sub = $('levelSub');
-
-        fill.style.width = percent + '%';
-        if (percent < 40) {
-            fill.style.background = 'var(--danger)'; text.textContent = 'Уровень: Новичок 🛡️'; text.style.color = 'var(--danger)';
-            sub.textContent = 'Выполни хотя бы половину пунктов для базовой защиты.';
-        } else if (percent < 80) {
-            fill.style.background = 'var(--warning)'; text.textContent = 'Уровень: Осведомлённый 🔒'; text.style.color = 'var(--warning)';
-            sub.textContent = 'Хорошая база! Осталось внедрить пару привычек.';
-        } else {
-            fill.style.background = 'var(--success)'; text.textContent = 'Уровень: Кибер-щит 🛡️🔐'; text.style.color = 'var(--success)';
-            sub.textContent = 'Отличная работа! Твои цифровые привычки на высоте.';
-        }
-    }
-
-    loadChecklist();
-    $('resetChecklist').addEventListener('click', () => {
-        storage.remove('cyberChecklist');
-        loadChecklist();
-        showToast('Прогресс чек-листа сброшен');
-    });
 
     document.querySelectorAll('.tfa-card').forEach(card => {
         const toggleActive = () => {
@@ -1354,6 +1654,546 @@
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleActive(); }
         });
+    });
+
+    const HINT_CATEGORIES = [
+        { icon: '🔐', title: 'Пароли и менеджер паролей', items: ['Использую менеджер паролей (Bitwarden, KeePass)', 'У каждого сайта — уникальный пароль', 'Главный пароль — длинный и надёжный', 'Проверил почту на haveibeenpwned.com'] },
+        { icon: '🔑', title: 'Двухфакторная аутентификация', items: ['Включил 2FA (приложение) на почте', 'Включил 2FA в основных соцсетях', 'Включил 2FA в игровых аккаунтах', 'Отключил 2FA через SMS в пользу приложения'] },
+        { icon: '🎣', title: 'Проверка домена и отправителя', items: ['Всегда смотрю на адрес сайта перед вводом данных', 'Проверяю email отправителя письма', 'Не перехожу по ссылкам из неожиданных SMS', 'Замечаю подмену букв в доменах (о/0, l/I)'] },
+        { icon: '🙈', title: 'Приватность в соцсетях', items: ['Закрыл профиль от посторонних', 'Убрал геолокацию из постов', 'Ограничил круг тех, кто видит мои фото', 'Не публикую адрес школы и домашний адрес'] },
+        { icon: '🔄', title: 'Обновления и резервные копии', items: ['Обновляю браузер и приложения вовремя', 'Обновляю операционную систему', 'Делаю резервные копии важных файлов', 'Использую облако или внешний диск'] },
+        { icon: '📶', title: 'Поведение в открытом Wi-Fi', items: ['Не захожу в банк через открытый Wi-Fi', 'Использую мобильный интернет для важных дел', 'Проверяю HTTPS перед вводом пароля', 'Забыл «знакомые» сети в кафе и аэропортах'] },
+        { icon: '🚨', title: 'Что делать при взломе аккаунта', items: ['Знаю алгоритм действий при взломе', 'Могу быстро сменить пароль с другого устройства', 'Знаю, как завершить все сеансы в аккаунте', 'Знаю, куда обращаться за помощью'] }
+    ];
+
+    const hintsList = $('hintsList');
+    HINT_CATEGORIES.forEach((cat, idx) => {
+        const catEl = document.createElement('div');
+        catEl.className = 'hint-category';
+        catEl.setAttribute('aria-expanded', 'false');
+        
+        const btnEl = document.createElement('button');
+        btnEl.type = 'button';
+        btnEl.className = 'hint-category-btn';
+        btnEl.setAttribute('aria-controls', `hint-items-${idx}`);
+        btnEl.innerHTML = `<span>${cat.icon} ${cat.title}</span><span class="arrow">▶</span>`;
+        catEl.appendChild(btnEl);
+        
+        const itemsEl = document.createElement('div');
+        itemsEl.className = 'hint-items';
+        itemsEl.id = `hint-items-${idx}`;
+        
+        cat.items.forEach(item => {
+            const hintBtn = document.createElement('button');
+            hintBtn.type = 'button';
+            hintBtn.className = 'hint-item';
+            hintBtn.dataset.hint = item;
+            hintBtn.innerHTML = `<span>${item}</span><span class="plus">+</span>`;
+            itemsEl.appendChild(hintBtn);
+        });
+        
+        catEl.appendChild(itemsEl);
+        hintsList.appendChild(catEl);
+    });
+
+    hintsList.addEventListener('click', (e) => {
+        const btn = e.target.closest('.hint-category-btn');
+        if (btn) {
+            const cat = btn.parentElement;
+            const expanded = cat.getAttribute('aria-expanded') === 'true';
+            cat.setAttribute('aria-expanded', String(!expanded));
+            return;
+        }
+        const hintItem = e.target.closest('.hint-item');
+        if (hintItem) {
+            addDossierItem(hintItem.dataset.hint);
+            showToast('Пункт добавлен в досье');
+        }
+    });
+
+    let dossierItems = storage.get('dossierItems') || [];
+    const itemsList = $('itemsList');
+    const emptyState = $('emptyState');
+    const newItemInput = $('newItemInput');
+    const addItemForm = $('addItemForm');
+
+    function saveDossier() { 
+        storage.set('dossierItems', dossierItems);
+    }
+
+    function renderDossier() {
+        itemsList.innerHTML = '';
+        if (dossierItems.length === 0) { emptyState.style.display = 'block'; return; }
+        emptyState.style.display = 'none';
+        dossierItems.forEach((item, idx) => {
+            const li = document.createElement('li');
+            li.className = 'dossier-item' + (item.checked ? ' checked' : '');
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'item-checkbox';
+            checkbox.dataset.idx = idx;
+            checkbox.checked = item.checked;
+            checkbox.setAttribute('aria-label', `Отметить выполнено: ${item.text}`);
+            
+            const textSpan = document.createElement('span');
+            textSpan.className = 'item-text';
+            textSpan.textContent = item.text;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'item-remove';
+            removeBtn.dataset.idx = idx;
+            removeBtn.setAttribute('aria-label', `Удалить пункт: ${item.text}`);
+            removeBtn.textContent = '✕';
+            
+            li.appendChild(checkbox);
+            li.appendChild(textSpan);
+            li.appendChild(removeBtn);
+            
+            textSpan.addEventListener('click', () => {
+                checkbox.checked = !checkbox.checked;
+                dossierItems[idx].checked = checkbox.checked;
+                li.classList.toggle('checked', checkbox.checked);
+                saveDossier();
+            });
+            
+            itemsList.appendChild(li);
+        });
+    }
+
+    function addDossierItem(text) {
+        const clean = text.trim();
+        if (!clean) return;
+        if (dossierItems.some(i => i.text.toLowerCase() === clean.toLowerCase())) {
+            showToast('Такой пункт уже есть');
+            return;
+        }
+        dossierItems.push({ text: clean, checked: false });
+        saveDossier();
+        renderDossier();
+    }
+
+    addItemForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        addDossierItem(newItemInput.value);
+        newItemInput.value = '';
+        newItemInput.focus();
+    });
+
+    itemsList.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.item-remove');
+        if (removeBtn) {
+            dossierItems.splice(parseInt(removeBtn.dataset.idx, 10), 1);
+            saveDossier();
+            renderDossier();
+        }
+    });
+
+    itemsList.addEventListener('change', (e) => {
+        if (e.target.classList.contains('item-checkbox')) {
+            const idx = parseInt(e.target.dataset.idx, 10);
+            const li = e.target.closest('.dossier-item');
+            dossierItems[idx].checked = e.target.checked;
+            li.classList.toggle('checked', e.target.checked);
+            saveDossier();
+        }
+    });
+
+    $('resetDossier').addEventListener('click', () => {
+        if (!confirm('Удалить все пункты из досье? Это действие нельзя отменить.')) return;
+        dossierItems = [];
+        saveDossier();
+        renderDossier();
+        showToast('Досье очищено');
+    });
+
+    $('printDossier').addEventListener('click', () => {
+        handlePrint('printing-dossier');
+    });
+
+    renderDossier();
+
+    const MEMO_SCENARIOS = [
+        {
+            id: 'money',
+            icon: '💸',
+            title: 'Перевёл деньги мошенникам',
+            desc: 'Ты отправил деньги на карту «друга» или «банка», но что-то пошло не так...',
+            correctSteps: [
+                'Сразу звони в банк по номеру на обратной стороне карты',
+                'Попроси заблокировать операцию и попробовать отменить перевод',
+                'Сохрани все скриншоты переписки и чеки',
+                'Напиши заявление в полицию (можно через сайт МВД)',
+                'Расскажи родителям — вместе справиться проще'
+            ],
+            distractors: [
+                'Подожди пару дней — вдруг деньги вернутся сами',
+                'Напиши мошеннику и потребуй вернуть деньги',
+                'Удали переписку, чтобы никто не узнал'
+            ]
+        },
+        {
+            id: 'photos',
+            icon: '📸',
+            title: 'Угрожают личными фото',
+            desc: 'Кто-то пишет: «Переведи деньги, иначе выложу твои фото в сеть»...',
+            correctSteps: [
+                'Не плати и не выполняй требования — шантаж не заканчивается',
+                'Сделай скриншоты всех угроз и переписки',
+                'Заблокируй шантажиста во всех соцсетях',
+                'Не удаляй переписку — это доказательство',
+                'Сразу расскажи родителям и обратись в полицию'
+            ],
+            distractors: [
+                'Переведи небольшую сумму, чтобы отстали',
+                'Ответь грубостью в ответ — пусть знает',
+                'Удали свои аккаунты и сделай вид, что ничего не было'
+            ]
+        },
+        {
+            id: 'hacked',
+            icon: '🔓',
+            title: 'Взломали аккаунт',
+            desc: 'Ты не можешь войти в почту или соцсеть — пароль не подходит...',
+            correctSteps: [
+                'Смени пароль с другого устройства (телефон, другой ПК)',
+                'В настройках нажми «Завершить все сеансы»',
+                'Проверь привязанный email и телефон — не подменили ли',
+                'Включи 2FA через приложение, если ещё не включено',
+                'Сообщи в поддержку сервиса и родителям'
+            ],
+            distractors: [
+                'Создай новый аккаунт с тем же именем',
+                'Напиши в соцсетях, что тебя взломали, и попроси у друзей пароль',
+                'Подожди день — вдруг само восстановится'
+            ]
+        },
+        {
+            id: 'deepfake',
+            icon: '🎭',
+            title: 'Дипфейк-звонок «от родителя»',
+            desc: 'Тебе звонит «мама» или «папа» и просит срочно перевести деньги. Голос очень похож...',
+            correctSteps: [
+                'Положи трубку — не переводи деньги сразу',
+                'Перезвони родителю по номеру из своих контактов',
+                'Задай контрольный вопрос, который знает только он',
+                'Используйте заранее установленное кодовое слово',
+                'Если голос очень похож — это дипфейк. Сообщи взрослым'
+            ],
+            distractors: [
+                'Сразу переведи деньги — голос же знакомый!',
+                'Попроси прислать фото для подтверждения',
+                'Переведи, но меньшую сумму — на всякий случай'
+            ]
+        }
+    ];
+
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = secureRandomInt(i + 1);
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    const memoScenariosEl = $('memoScenarios');
+    const memoBuilderOverlay = $('memoBuilderOverlay');
+    const memoBuilderClose = $('memoBuilderClose');
+    const memoBuilderIcon = $('memoBuilderIcon');
+    const memoBuilderTitle = $('memoBuilderTitle');
+    const memoPickedArea = $('memoPickedArea');
+    const memoPickedList = $('memoPickedList');
+    const memoPool = $('memoPool');
+    const memoFeedback = $('memoFeedback');
+    const memoReset = $('memoReset');
+
+    let currentScenario = null;
+    let pickedSteps = [];
+    let allSteps = [];
+    let completedScenarios = storage.get('memoCompleted') || [];
+
+    function renderMemoScenarios() {
+        memoScenariosEl.innerHTML = '';
+        MEMO_SCENARIOS.forEach(scenario => {
+            const card = document.createElement('div');
+            card.className = 'memo-card';
+            const isCompleted = completedScenarios.includes(scenario.id);
+            if (isCompleted) card.classList.add('completed');
+            
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'memo-icon';
+            iconDiv.textContent = scenario.icon;
+            
+            const h4 = document.createElement('h4');
+            h4.textContent = scenario.title;
+            
+            const desc = document.createElement('p');
+            desc.className = 'memo-desc';
+            desc.textContent = scenario.desc;
+            
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'memo-start-btn';
+            btn.dataset.id = scenario.id;
+            btn.textContent = isCompleted ? '🔄 Собрать заново' : '▶ Собрать алгоритм';
+            
+            card.appendChild(iconDiv);
+            card.appendChild(h4);
+            card.appendChild(desc);
+            card.appendChild(btn);
+            memoScenariosEl.appendChild(card);
+        });
+    }
+
+    memoScenariosEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.memo-start-btn');
+        if (!btn) return;
+        const id = btn.dataset.id;
+        const scenario = MEMO_SCENARIOS.find(s => s.id === id);
+        if (!scenario) return;
+        openMemoBuilder(scenario);
+    });
+
+    function openMemoBuilder(scenario) {
+        currentScenario = scenario;
+        pickedSteps = [];
+        
+        allSteps = [];
+        scenario.correctSteps.forEach((text, idx) => {
+            allSteps.push({ text, isCorrect: true, originalIdx: idx });
+        });
+        scenario.distractors.forEach((text, idx) => {
+            allSteps.push({ text, isCorrect: false, originalIdx: idx });
+        });
+        allSteps = shuffle(allSteps);
+
+        memoBuilderIcon.textContent = scenario.icon;
+        memoBuilderTitle.textContent = scenario.title;
+        
+        renderMemoPool();
+        renderMemoPicked();
+        hideMemoFeedback();
+        
+        memoBuilderOverlay.classList.add('show');
+        trapFocus(memoBuilderOverlay);
+        setTimeout(() => memoBuilderClose.focus(), 100);
+    }
+
+    function renderMemoPool() {
+        memoPool.innerHTML = '';
+        allSteps.forEach((step, idx) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'pool-step';
+            btn.textContent = step.text;
+            btn.dataset.idx = idx;
+            if (pickedSteps.includes(idx)) {
+                btn.classList.add('used');
+                btn.disabled = true;
+            }
+            btn.addEventListener('click', () => handlePoolClick(idx, btn));
+            memoPool.appendChild(btn);
+        });
+    }
+
+    function renderMemoPicked() {
+        memoPickedList.innerHTML = '';
+        if (pickedSteps.length === 0) {
+            memoPickedArea.classList.remove('has-items');
+            return;
+        }
+        memoPickedArea.classList.add('has-items');
+        pickedSteps.forEach((stepIdx, position) => {
+            const step = allSteps[stepIdx];
+            const li = document.createElement('li');
+            li.className = 'picked-item';
+            
+            const textSpan = document.createElement('span');
+            textSpan.className = 'picked-text';
+            textSpan.textContent = step.text;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'remove-picked';
+            removeBtn.setAttribute('aria-label', 'Удалить шаг');
+            removeBtn.textContent = '✕';
+            removeBtn.addEventListener('click', () => {
+                removePickedStep(position);
+            });
+            
+            li.appendChild(textSpan);
+            li.appendChild(removeBtn);
+            memoPickedList.appendChild(li);
+        });
+    }
+
+    function handlePoolClick(idx, btnElement) {
+        if (pickedSteps.includes(idx)) return;
+        const step = allSteps[idx];
+        const nextExpectedPosition = pickedSteps.length;
+        
+        if (step.isCorrect && step.originalIdx === nextExpectedPosition) {
+            pickedSteps.push(idx);
+            renderMemoPool();
+            renderMemoPicked();
+            hideMemoFeedback();
+            
+            if (pickedSteps.length === currentScenario.correctSteps.length) {
+                showMemoSuccess();
+            }
+        } else {
+            showMemoError(step, btnElement);
+        }
+    }
+
+    function removePickedStep(position) {
+        pickedSteps.splice(position, 1);
+        renderMemoPool();
+        renderMemoPicked();
+        hideMemoFeedback();
+    }
+
+    function showMemoError(step, btnElement) {
+        memoFeedback.className = 'memo-builder-feedback show error';
+        memoFeedback.textContent = '';
+        
+        const strong = document.createElement('strong');
+        const textNode = document.createTextNode(' ');
+        
+        if (!step.isCorrect) {
+            strong.textContent = 'Ловушка!';
+            memoFeedback.appendChild(document.createTextNode('❌ '));
+            memoFeedback.appendChild(strong);
+            memoFeedback.appendChild(textNode);
+            memoFeedback.appendChild(document.createTextNode(`«${step.text}» — это ложный совет. В реальной ситуации он только ухудшит положение.`));
+        } else {
+            strong.textContent = 'Неверный порядок!';
+            memoFeedback.appendChild(document.createTextNode('⚠️ '));
+            memoFeedback.appendChild(strong);
+            memoFeedback.appendChild(textNode);
+            
+            let prevStepText = '';
+            if (step.originalIdx > 0) {
+                const prevStep = currentScenario.correctSteps[step.originalIdx - 1];
+                prevStepText = `после шага «${prevStep}»`;
+            } else {
+                prevStepText = 'самым первым';
+            }
+            
+            memoFeedback.appendChild(document.createTextNode(`Этот шаг должен идти ${prevStepText}. Подумай о логике действий.`));
+        }
+        
+        if (btnElement) {
+            btnElement.classList.add('shake');
+            setTimeout(() => {
+                btnElement.classList.remove('shake');
+            }, 400);
+        }
+    }
+
+    function showMemoSuccess() {
+        memoFeedback.className = 'memo-builder-feedback show success';
+        memoFeedback.textContent = '';
+        
+        const strong = document.createElement('strong');
+        strong.textContent = 'Отлично!';
+        memoFeedback.appendChild(document.createTextNode('🏆 '));
+        memoFeedback.appendChild(strong);
+        memoFeedback.appendChild(document.createTextNode(' Ты собрал правильный алгоритм. Теперь ты знаешь, как действовать в этой ситуации. Сохрани эти шаги — они могут пригодиться.'));
+        
+        if (!completedScenarios.includes(currentScenario.id)) {
+            completedScenarios.push(currentScenario.id);
+            storage.set('memoCompleted', completedScenarios);
+        }
+        renderMemoScenarios();
+        showToast('Сценарий пройден!');
+    }
+
+    function hideMemoFeedback() {
+        memoFeedback.className = 'memo-builder-feedback';
+        memoFeedback.textContent = '';
+    }
+
+    function closeMemoBuilder() {
+        memoBuilderOverlay.classList.remove('show');
+        currentScenario = null;
+        releaseFocus();
+    }
+
+    memoBuilderClose.addEventListener('click', closeMemoBuilder);
+    memoBuilderOverlay.addEventListener('click', (e) => {
+        if (e.target === memoBuilderOverlay) closeMemoBuilder();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && memoBuilderOverlay.classList.contains('show')) {
+            closeMemoBuilder();
+        }
+    });
+
+    memoReset.addEventListener('click', () => {
+        if (!currentScenario) return;
+        pickedSteps = [];
+        renderMemoPool();
+        renderMemoPicked();
+        hideMemoFeedback();
+    });
+
+    renderMemoScenarios();
+
+    let focusTrapElement = null;
+    let previousActiveElement = null;
+
+    function trapFocus(element) {
+        previousActiveElement = document.activeElement;
+        focusTrapElement = element;
+        document.addEventListener('keydown', handleFocusTrap);
+    }
+
+    function releaseFocus() {
+        document.removeEventListener('keydown', handleFocusTrap);
+        focusTrapElement = null;
+        if (previousActiveElement) {
+            previousActiveElement.focus();
+        }
+    }
+
+    function handleFocusTrap(e) {
+        if (e.key !== 'Tab' || !focusTrapElement) return;
+        
+        const focusableElements = focusTrapElement.querySelectorAll(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+                lastFocusable.focus();
+                e.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastFocusable) {
+                firstFocusable.focus();
+                e.preventDefault();
+            }
+        }
+    }
+
+    function handlePrint(className) {
+        const cleanup = () => {
+            document.body.classList.remove(className);
+            window.removeEventListener('afterprint', cleanup);
+        };
+        window.addEventListener('afterprint', cleanup);
+        setTimeout(cleanup, 15000);
+        document.body.classList.add(className);
+        window.print();
+    }
+
+    $('printMemo').addEventListener('click', () => {
+        handlePrint('printing-memo');
     });
 
 })();
